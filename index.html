@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="Grade Calculator Guide covering weighted grades, simple averages, final exam targets, planning, mistakes, benefits, limitations, and FAQs." name="description"/>
+  <title>
+   Grade Calculator Guide: Calculate Scores and Plan Ahead
+  </title>
+  <style>
+   :root {
+  --navy:#07182e;
+  --navy2:#0e2d50;
+  --blue:#2563eb;
+  --cyan:#06b6d4;
+  --violet:#7c3aed;
+  --orange:#f97316;
+  --ink:#11243f;
+  --muted:#61738b;
+  --paper:#fff;
+  --soft:#f3f7fc;
+  --line:#dce7f2;
+  --shadow:0 18px 48px rgba(8,32,63,.12)
+}
+* {
+  box-sizing:border-box
+}
+html {
+  scroll-behavior:smooth
+}
+body {
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  color:var(--ink);
+  background:radial-gradient(circle at 8% 3%,rgba(6,182,212,.1),transparent 24rem),radial-gradient(circle at 92% 6%,rgba(124,58,237,.1),transparent 26rem),var(--soft);
+  line-height:1.75
+}
+a {
+  color:inherit
+}
+.progress {
+  position:fixed;
+  top:0;
+  left:0;
+  height:4px;
+  width:0;
+  background:linear-gradient(90deg,var(--cyan),var(--blue),var(--violet),var(--orange));
+  z-index:9999
+}
+.header {
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(7,24,46,.95);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,.08)
+}
+.header-inner {
+  width:min(1480px,calc(100% - 28px));
+  min-height:72px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:22px;
+  white-space:nowrap;
+  overflow-x:auto;
+  scrollbar-width:none
+}
+.header-inner::-webkit-scrollbar {
+  display:none
+}
+.brand {
+  display:flex;
+  align-items:center;
+  gap:11px;
+  color:#fff;
+  text-decoration:none;
+  font-weight:900;
+  letter-spacing:-.03em
+}
+.brand-mark {
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--cyan),var(--blue),var(--violet));
+  box-shadow:0 10px 25px rgba(37,99,235,.35)
+}
+.nav {
+  display:flex;
+  align-items:center;
+  gap:5px
+}
+.nav a {
+  padding:10px 12px;
+  border-radius:999px;
+  color:#cbe0f4;
+  text-decoration:none;
+  font-size:.86rem;
+  font-weight:800
+}
+.nav a:hover {
+  color:#fff;
+  background:rgba(255,255,255,.1)
+}
+.nav .cta {
+  color:#fff;
+  background:linear-gradient(135deg,var(--orange),#fb923c)
+}
+.hero {
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(120deg,rgba(7,24,46,.99),rgba(14,45,80,.95));
+  color:#fff;
+  padding:88px 0 74px
+}
+.hero:before {
+  content:"";
+  position:absolute;
+  width:430px;
+  height:430px;
+  border-radius:50%;
+  right:-130px;
+  top:-165px;
+  background:radial-gradient(circle,rgba(37,99,235,.9),transparent 68%)
+}
+.hero:after {
+  content:"";
+  position:absolute;
+  width:350px;
+  height:350px;
+  border-radius:50%;
+  left:-120px;
+  bottom:-190px;
+  background:radial-gradient(circle,rgba(6,182,212,.75),transparent 68%)
+}
+.hero-grid {
+  position:relative;
+  z-index:1;
+  width:min(1360px,calc(100% - 36px));
+  margin:auto;
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(350px,.75fr);
+  gap:48px;
+  align-items:center
+}
+.eyebrow {
+  display:inline-flex;
+  padding:8px 13px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.08);
+  font-size:.76rem;
+  font-weight:900;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:#c9f5ff;
+  margin-bottom:22px
+}
+h1 {
+  margin:0;
+  max-width:980px;
+  font-size:clamp(2.7rem,5vw,5.25rem);
+  line-height:1.01;
+  letter-spacing:-.055em
+}
+.hero p {
+  max-width:820px;
+  color:#cad9e8;
+  font-size:clamp(1.02rem,1.5vw,1.2rem);
+  margin:24px 0 0
+}
+.badges {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:30px
+}
+.badges span {
+  padding:10px 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.08);
+  font-weight:800;
+  font-size:.84rem
+}
+.calculator {
+  background:#fff;
+  color:var(--ink);
+  padding:22px;
+  border-radius:28px;
+  box-shadow:0 30px 80px rgba(0,0,0,.3)
+}
+.calc-title {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px
+}
+.calc-title strong {
+  color:var(--navy)
+}
+.status {
+  padding:7px 10px;
+  border-radius:999px;
+  color:#047857;
+  background:#dcfce7;
+  font-size:.72rem;
+  font-weight:900
+}
+.inputs {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:11px
+}
+.field {
+  display:flex;
+  flex-direction:column;
+  gap:6px
+}
+.field label {
+  font-size:.72rem;
+  color:var(--muted);
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.06em
+}
+.field input {
+  width:100%;
+  padding:12px 13px;
+  border:1px solid #d7e3f0;
+  border-radius:13px;
+  background:#f8fbff;
+  outline:none
+}
+.field input:focus {
+  border-color:var(--blue);
+  box-shadow:0 0 0 4px rgba(37,99,235,.1)
+}
+.calc-btn {
+  width:100%;
+  border:0;
+  cursor:pointer;
+  margin-top:13px;
+  padding:14px;
+  border-radius:14px;
+  color:#fff;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--blue),var(--violet))
+}
+.result {
+  margin-top:13px;
+  padding:15px;
+  border-radius:15px;
+  background:linear-gradient(135deg,#eef6ff,#f4f0ff);
+  border:1px solid #d9e4fb
+}
+.result strong {
+  display:block;
+  color:var(--blue);
+  font-size:1.45rem
+}
+.result span {
+  font-size:.78rem;
+  color:var(--muted);
+  font-weight:800
+}
+.shell {
+  width:min(1360px,calc(100% - 36px));
+  margin:42px auto 84px;
+  display:grid;
+  grid-template-columns:285px minmax(0,1fr);
+  gap:28px;
+  align-items:start
+}
+.toc {
+  position:sticky;
+  top:96px;
+  max-height:calc(100vh - 118px);
+  overflow:auto;
+  padding:20px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:rgba(255,255,255,.96);
+  box-shadow:0 10px 30px rgba(8,32,63,.08)
+}
+.toc h2 {
+  margin:0 0 12px;
+  font-size:1rem
+}
+.toc a {
+  display:block;
+  padding:8px 10px;
+  border-radius:10px;
+  color:var(--muted);
+  text-decoration:none;
+  font-size:.83rem;
+  font-weight:750
+}
+.toc a:hover {
+  color:var(--blue);
+  background:#eef6ff;
+  transform:translateX(3px)
+}
+article {
+  min-width:0
+}
+.card {
+  scroll-margin-top:100px;
+  margin-bottom:24px;
+  padding:clamp(24px,4vw,52px);
+  border:1px solid var(--line);
+  border-radius:24px;
+  background:#fff;
+  box-shadow:0 10px 30px rgba(8,32,63,.08)
+}
+.intro {
+  border-top:5px solid transparent;
+  background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,var(--cyan),var(--blue),var(--violet),var(--orange)) border-box
+}
+.kicker {
+  display:inline-flex;
+  margin-bottom:12px;
+  color:var(--blue);
+  font-size:.74rem;
+  font-weight:900;
+  letter-spacing:.11em;
+  text-transform:uppercase
+}
+.card h2 {
+  margin:0 0 18px;
+  color:var(--navy);
+  font-size:clamp(1.65rem,2.7vw,2.35rem);
+  line-height:1.18;
+  letter-spacing:-.035em
+}
+.card p {
+  margin:0 0 17px;
+  color:#334b67;
+  font-size:1.02rem
+}
+.card p:last-child {
+  margin-bottom:0
+}
+.inline-link {
+  color:#075ed0;
+  font-weight:900;
+  text-decoration:none;
+  border-bottom:2px solid rgba(37,99,235,.25)
+}
+.inline-link:hover {
+  color:#0048a6;
+  border-bottom-color:#0048a6
+}
+.highlight {
+  margin:24px 0;
+  padding:19px 21px;
+  border-left:5px solid #14b8a6;
+  border-radius:16px;
+  background:linear-gradient(135deg,#ecfffb,#f3f8ff);
+  font-weight:750;
+  color:#173d4c
+}
+.table-wrap {
+  overflow-x:auto;
+  margin:24px 0 18px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(8,32,63,.08)
+}
+table {
+  width:100%;
+  min-width:780px;
+  border-collapse:collapse;
+  background:#fff
+}
+th {
+  padding:17px 18px;
+  color:#fff;
+  text-align:left;
+  background:linear-gradient(135deg,var(--navy),var(--navy2));
+  font-size:.8rem;
+  text-transform:uppercase;
+  letter-spacing:.05em
+}
+td {
+  padding:16px 18px;
+  color:#38516c;
+  border-bottom:1px solid var(--line);
+  vertical-align:top
+}
+tbody tr:nth-child(even) {
+  background:#f8fbff
+}
+tbody tr:hover {
+  background:#eef7ff
+}
+tbody tr:last-child td {
+  border-bottom:0
+}
+td:first-child {
+  font-weight:900;
+  color:var(--navy)
+}
+.steps {
+  counter-reset:step;
+  display:grid;
+  gap:14px;
+  margin:22px 0 20px;
+  padding:0;
+  list-style:none
+}
+.steps li {
+  counter-increment:step;
+  position:relative;
+  min-height:64px;
+  padding:19px 20px 19px 72px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:linear-gradient(135deg,#f8fbff,#f4fffd);
+  color:#334a66;
+  font-weight:720
+}
+.steps li:before {
+  content:counter(step);
+  position:absolute;
+  left:18px;
+  top:14px;
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  color:#fff;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  font-weight:900
+}
+.formula {
+  margin:24px 0;
+  padding:22px;
+  border-radius:20px;
+  border:1px solid #d7e5f8;
+  background:linear-gradient(145deg,#f4f9ff,#f8f5ff)
+}
+.formula-code {
+  padding:16px 18px;
+  border-radius:15px;
+  background:linear-gradient(135deg,var(--navy),var(--navy2));
+  color:#fff;
+  text-align:center;
+  font-family:Consolas,monospace;
+  font-weight:800
+}
+.faq {
+  display:grid;
+  gap:13px;
+  margin-top:22px
+}
+details {
+  border:1px solid var(--line);
+  border-radius:17px;
+  background:#fff;
+  overflow:hidden
+}
+details[open] {
+  border-color:#bdd7fb;
+  box-shadow:0 10px 30px rgba(8,32,63,.08)
+}
+summary {
+  cursor:pointer;
+  list-style:none;
+  position:relative;
+  padding:19px 54px 19px 20px;
+  color:var(--navy);
+  font-weight:900
+}
+summary::-webkit-details-marker {
+  display:none
+}
+summary:after {
+  content:"+";
+  position:absolute;
+  right:18px;
+  top:50%;
+  transform:translateY(-50%);
+  width:30px;
+  height:30px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  background:#edf6ff;
+  color:var(--blue);
+  font-size:1.35rem
+}
+details[open] summary:after {
+  content:"−";
+  background:var(--blue);
+  color:#fff
+}
+details p {
+  padding:0 20px 20px;
+  margin:0;
+  color:#496078
+}
+.conclusion {
+  color:#fff;
+  text-align:center;
+  border:none;
+  background:radial-gradient(circle at 15% 20%,rgba(6,182,212,.28),transparent 18rem),radial-gradient(circle at 85% 80%,rgba(249,115,22,.24),transparent 19rem),linear-gradient(135deg,var(--navy),#0d3761)
+}
+.conclusion h2 {
+  color:#fff
+}
+.conclusion p {
+  color:#d1dfec;
+  max-width:860px;
+  margin-left:auto;
+  margin-right:auto
+}
+.pills {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-top:24px
+}
+.pills span {
+  padding:10px 14px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  font-size:.84rem;
+  font-weight:800
+}
+.footer {
+  padding:52px 0 26px;
+  color:#c8d7e6;
+  background:#061524
+}
+.footer-grid {
+  width:min(1360px,calc(100% - 36px));
+  margin:auto;
+  display:grid;
+  grid-template-columns:1.4fr .8fr .8fr;
+  gap:34px
+}
+.footer-brand {
+  margin-bottom:12px;
+  color:#fff;
+  font-size:1.25rem;
+  font-weight:900
+}
+.footer-copy {
+  max-width:580px;
+  color:#93a9bd;
+  font-size:.92rem
+}
+.footer h3 {
+  margin:0 0 12px;
+  color:#fff;
+  font-size:.95rem
+}
+.footer-links {
+  display:flex;
+  flex-direction:column;
+  gap:8px
+}
+.footer-links a {
+  color:#a9bed0;
+  text-decoration:none;
+  font-size:.88rem;
+  font-weight:750
+}
+.footer-links a:hover {
+  color:#fff
+}
+.socials {
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap
+}
+.socials a {
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:13px;
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  text-decoration:none;
+  font-weight:900
+}
+.socials a:hover {
+  transform:translateY(-3px);
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  border-color:transparent
+}
+.footer-bottom {
+  width:min(1360px,calc(100% - 36px));
+  margin:34px auto 0;
+  padding-top:20px;
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  flex-wrap:wrap;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:#7890a6;
+  font-size:.82rem
+}
+.back {
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  width:46px;
+  height:46px;
+  border:0;
+  border-radius:15px;
+  color:#fff;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  box-shadow:0 12px 28px rgba(37,99,235,.3);
+  cursor:pointer;
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(12px);
+  transition:.25s
+}
+.back.show {
+  opacity:1;
+  pointer-events:auto;
+  transform:none
+}
+@media(max-width:1060px) {
+  .hero-grid {
+    grid-template-columns:1fr
+  }
+  .calculator {
+    max-width:700px
+  }
+  .shell {
+    grid-template-columns:1fr
+  }
+  .toc {
+    position:relative;
+    top:0;
+    max-height:none;
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding:12px
+  }
+  .toc h2 {
+    display:none
+  }
+  .toc a {
+    flex:0 0 auto;
+    background:#f2f7fc
+  }
+  .footer-grid {
+    grid-template-columns:1fr 1fr
+  }
+  .footer-grid>div:first-child {
+    grid-column:1/-1
+  }
+}
+@media(max-width:720px) {
+  .header-inner {
+    min-height:64px
+  }
+  .brand-mark {
+    width:38px;
+    height:38px
+  }
+  .nav a {
+    padding:9px 10px;
+    font-size:.82rem
+  }
+  .hero {
+    padding:70px 0 54px
+  }
+  .hero-grid,.shell,.footer-grid,.footer-bottom {
+    width:min(100% - 22px,1360px)
+  }
+  h1 {
+    font-size:clamp(2.35rem,12vw,3.8rem)
+  }
+  .card {
+    padding:23px 18px;
+    border-radius:20px
+  }
+  .inputs {
+    grid-template-columns:1fr
+  }
+  .footer-grid {
+    grid-template-columns:1fr
+  }
+  .footer-grid>div:first-child {
+    grid-column:auto
+  }
+  .steps li {
+    padding-left:66px
+  }
+}
+  </style>
+ </head>
+ <body>
+  <div class="progress" id="progress">
+  </div>
+  <header class="header">
+   <div class="header-inner">
+    <a class="brand" href="#top">
+     <span class="brand-mark">
+      A+
+     </span>
+     <span>
+      GradePilot
+     </span>
+    </a>
+    <nav class="nav">
+     <a href="#overview">
+      Overview
+     </a>
+     <a href="#types">
+      Calculation Types
+     </a>
+     <a href="#weighted">
+      Weighted Grades
+     </a>
+     <a href="#final">
+      Final Exam
+     </a>
+     <a href="#faqs">
+      FAQs
+     </a>
+     <a class="cta" href="#conclusion">
+      Plan Ahead
+     </a>
+    </nav>
+   </div>
+  </header>
+  <main id="top">
+   <section class="hero">
+    <div class="hero-grid">
+     <div>
+      <span class="eyebrow">
+       Track • Calculate • Improve
+      </span>
+      <h1>
+       Grade Calculator Guide: Calculate Scores and Plan Ahead
+      </h1>
+      <p>
+       Understand weighted grades, estimate final results, calculate required exam scores, and make smarter academic decisions with a clear, reliable method.
+      </p>
+      <div class="badges">
+       <span>
+        Weighted averages
+       </span>
+       <span>
+        Final exam targets
+       </span>
+       <span>
+        Academic planning
+       </span>
+       <span>
+        GPA awareness
+       </span>
+      </div>
+     </div>
+     <aside class="calculator">
+      <div class="calc-title">
+       <strong>
+        Quick Grade Estimator
+       </strong>
+       <span class="status">
+        Interactive
+       </span>
+      </div>
+      <div class="inputs">
+       <div class="field">
+        <label>
+         Score 1 (%)
+        </label>
+        <input id="s1" type="number" value="80"/>
+       </div>
+       <div class="field">
+        <label>
+         Weight 1 (%)
+        </label>
+        <input id="w1" type="number" value="30"/>
+       </div>
+       <div class="field">
+        <label>
+         Score 2 (%)
+        </label>
+        <input id="s2" type="number" value="70"/>
+       </div>
+       <div class="field">
+        <label>
+         Weight 2 (%)
+        </label>
+        <input id="w2" type="number" value="30"/>
+       </div>
+       <div class="field">
+        <label>
+         Score 3 (%)
+        </label>
+        <input id="s3" type="number" value="85"/>
+       </div>
+       <div class="field">
+        <label>
+         Weight 3 (%)
+        </label>
+        <input id="w3" type="number" value="40"/>
+       </div>
+      </div>
+      <button class="calc-btn" id="calc" type="button">
+       Calculate Weighted Grade
+      </button>
+      <div aria-atomic="true" aria-live="polite" class="result" id="result">
+       <strong>
+        79.00%
+       </strong>
+       <span>
+        Weights total 100%
+       </span>
+      </div>
+     </aside>
+    </div>
+   </section>
+   <div class="shell">
+    <aside class="toc">
+     <h2>
+      On this page
+     </h2>
+     <a href="#overview">
+      Overview
+     </a>
+     <a href="#what">
+      What Is It?
+     </a>
+     <a href="#types">
+      Calculation Types
+     </a>
+     <a href="#weighted">
+      Weighted Grade
+     </a>
+     <a href="#use">
+      How to Use
+     </a>
+     <a href="#weights">
+      Why Weights Matter
+     </a>
+     <a href="#final">
+      Final Exam Target
+     </a>
+     <a href="#simple">
+      Simple Average
+     </a>
+     <a href="#planning">
+      Academic Planning
+     </a>
+     <a href="#mistakes">
+      Common Mistakes
+     </a>
+     <a href="#students">
+      Students
+     </a>
+     <a href="#teachers">
+      Teachers and Parents
+     </a>
+     <a href="#limitations">
+      Limitations
+     </a>
+     <a href="#faqs">
+      FAQs
+     </a>
+    </aside>
+    <article>
+     <section class="card intro" id="overview">
+      <span class="kicker">
+       Academic performance made clearer
+      </span>
+      <p>
+       A grade calculator is a practical academic tool that helps students understand their current performance, estimate final results, and determine what score they need in upcoming assignments or exams. Instead of calculating every percentage manually, students can enter their marks and assessment weights to receive a clear overview of their progress.
+      </p>
+      <p>
+       Grades are not always calculated using a simple average. In many courses, exams, quizzes, assignments, projects, attendance, and class participation carry different percentages. A final examination may be worth 40 percent, while weekly homework may contribute only 10 percent. Students can use a reliable
+       <a class="inline-link" href="https://calculadoradenotas.net/" rel="noopener noreferrer" target="_blank">
+        calculadora de notas
+       </a>
+       to understand how these different weights influence the overall result. Because of these differences, adding all scores and dividing by the number of assessments may produce an incorrect result.
+      </p>
+      <p>
+       A reliable grade calculator applies the correct weight to every assessment. It can help students set realistic targets, identify weak areas, and make better decisions about where to focus their study time.
+      </p>
+     </section>
+     <section class="card" id="what">
+      <span class="kicker">
+       Definition
+      </span>
+      <h2>
+       What Is a Grade Calculator?
+      </h2>
+      <p>
+       A grade calculator is an online or digital tool used to calculate academic results. It may calculate a simple average, weighted average, percentage score, letter grade, or the minimum mark required on a final exam.
+      </p>
+      <p>
+       The user normally enters the score received, the total possible marks, and the percentage weight of each activity. The calculator processes the information and presents an estimated course grade.
+      </p>
+      <p>
+       For example, a student may receive 80 percent on assignments worth 30 percent of the course and 70 percent on exams worth 50 percent. The remaining 20 percent may come from a final project. A weighted calculation shows how much each category contributes to the overall result.
+      </p>
+      <p>
+       The tool is useful for both school and university students. Teachers and parents may also use it to review academic progress or verify manually calculated grades.
+      </p>
+     </section>
+     <section class="card" id="types">
+      <span class="kicker">
+       Choose the right method
+      </span>
+      <h2>
+       Different Types of Grade Calculations
+      </h2>
+      <p>
+       Not every course uses the same grading structure. Understanding the calculation type is important before entering scores.
+      </p>
+      <div class="table-wrap">
+       <table>
+        <thead>
+         <tr>
+          <th>
+           Calculation type
+          </th>
+          <th>
+           How it works
+          </th>
+          <th>
+           Best used for
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td>
+           Simple average
+          </td>
+          <td>
+           Adds all grades and divides by their number
+          </td>
+          <td>
+           Assessments with equal importance
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Weighted average
+          </td>
+          <td>
+           Multiplies each grade by its percentage weight
+          </td>
+          <td>
+           Courses with different assessment categories
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Points-based grade
+          </td>
+          <td>
+           Divides earned points by total possible points
+          </td>
+          <td>
+           Classes using cumulative points
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Final exam requirement
+          </td>
+          <td>
+           Calculates the score needed to reach a target
+          </td>
+          <td>
+           Planning before a final examination
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Letter-grade conversion
+          </td>
+          <td>
+           Converts a percentage into A, B, C, or another grade
+          </td>
+          <td>
+           Schools using letter systems
+          </td>
+         </tr>
+         <tr>
+          <td>
+           GPA calculation
+          </td>
+          <td>
+           Combines course grades with credit values
+          </td>
+          <td>
+           Semester and cumulative university results
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Category average
+          </td>
+          <td>
+           Calculates results within homework, exams, or projects
+          </td>
+          <td>
+           Courses using grouped assessment categories
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>
+       A student should check the course syllabus before choosing a calculation method. Using the wrong method can create an inaccurate estimate.
+      </p>
+     </section>
+     <section class="card" id="weighted">
+      <span class="kicker">
+       Core formula
+      </span>
+      <h2>
+       How a Weighted Grade Is Calculated
+      </h2>
+      <p>
+       A weighted grade considers the importance of each assessment. The score is multiplied by its weight, and the resulting contributions are added together.
+      </p>
+      <p>
+       Suppose a course contains three categories. Assignments are worth 30 percent, midterm exams are worth 30 percent, and the final examination is worth 40 percent. A student earns 80 percent in assignments, 70 percent in midterms, and 85 percent on the final exam.
+      </p>
+      <p>
+       The assignment contribution is 80 multiplied by 0.30, which equals 24. The midterm contribution is 70 multiplied by 0.30, which equals 21. The final examination contribution is 85 multiplied by 0.40, which equals 34.
+      </p>
+      <p>
+       Adding 24, 21, and 34 produces an overall grade of 79 percent.
+      </p>
+      <p>
+       This method is more accurate than adding the three scores and dividing by three because the final examination carries a greater percentage of the course.
+      </p>
+      <div class="formula">
+       <div class="formula-code">
+        (80 × 0.30) + (70 × 0.30) + (85 × 0.40) = 79%
+       </div>
+      </div>
+     </section>
+     <section class="card" id="use">
+      <span class="kicker">
+       Accurate input process
+      </span>
+      <h2>
+       How to Use a Grade Calculator Correctly
+      </h2>
+      <p>
+       A grade calculator is easy to use, but accurate information must be entered. Students can follow this process:
+      </p>
+      <ol class="steps">
+       <li>
+        Review the course syllabus and identify every assessment category.
+       </li>
+       <li>
+        Enter each score exactly as it appears in the academic record.
+       </li>
+       <li>
+        Add the correct percentage weight beside every assessment.
+       </li>
+       <li>
+        Confirm that all percentage weights total 100 percent.
+       </li>
+       <li>
+        Select the desired final grade when calculating a future target.
+       </li>
+       <li>
+        Check whether missing assignments are counted as zero or excluded.
+       </li>
+       <li>
+        Calculate the result and compare it with the official gradebook.
+       </li>
+       <li>
+        Repeat the calculation after new scores are received.
+       </li>
+      </ol>
+      <p>
+       Students should not guess category weights. A small difference in percentages can significantly change the estimated final result.
+      </p>
+     </section>
+     <section class="card" id="weights">
+      <span class="kicker">
+       Understand impact
+      </span>
+      <h2>
+       Why Percentage Weights Matter
+      </h2>
+      <p>
+       Percentage weights show how strongly an assessment affects the course result. A small quiz worth 5 percent cannot influence the final grade as much as an examination worth 40 percent.
+      </p>
+      <p>
+       This explains why receiving a low score on one minor assignment may not destroy a student’s overall performance. It also explains why improving performance on major projects and examinations can create a noticeable change.
+      </p>
+      <p>
+       Understanding weights helps students use their time intelligently. If two assessments are scheduled during the same week, the one carrying the higher percentage may deserve more preparation.
+      </p>
+      <p>
+       However, students should not ignore low-weight activities. Homework, participation, and quizzes can collectively make an important contribution, especially when the final result is close to a grade boundary.
+      </p>
+      <div class="highlight">
+       A low-weight task may have a small individual effect, but several small tasks together can decide whether a student crosses a grade boundary.
+      </div>
+     </section>
+     <section class="card" id="final">
+      <span class="kicker">
+       Set a clear target
+      </span>
+      <h2>
+       Calculating the Score Needed on a Final Exam
+      </h2>
+      <p>
+       One of the most useful features of a grade calculator is the ability to determine what score is needed on a remaining examination.
+      </p>
+      <p>
+       Suppose a student currently has 72 percent in the completed 70 percent of a course. The final exam is worth 30 percent, and the student wants an overall grade of 75 percent.
+      </p>
+      <p>
+       The completed work contributes 72 multiplied by 0.70, which equals 50.4. The target contribution is 75. The difference between 75 and 50.4 is 24.6.
+      </p>
+      <p>
+       The student needs the final exam to contribute 24.6 points. Dividing 24.6 by 0.30 gives 82. Therefore, the student needs approximately 82 percent on the final examination to finish with 75 percent overall.
+      </p>
+      <p>
+       This type of calculation provides a clear study target. It can also show when a desired result is unrealistic because the required score is higher than the maximum available mark.
+      </p>
+      <div class="formula">
+       <div class="formula-code">
+        (75 − 72 × 0.70) ÷ 0.30 = 82%
+       </div>
+      </div>
+     </section>
+     <section class="card" id="simple">
+      <span class="kicker">
+       Equal assessment value
+      </span>
+      <h2>
+       Grade Calculator for Simple Averages
+      </h2>
+      <p>
+       A simple average is suitable when every assessment carries equal importance. The scores are added and divided by the total number of grades.
+      </p>
+      <p>
+       If a student receives 75, 80, 85, and 90 on four equally weighted quizzes, the total is 330. Dividing 330 by four gives an average of 82.5.
+      </p>
+      <p>
+       The simple method should not be used when one assessment carries more weight than another. A final exam worth 50 percent should not be treated as equal to a short quiz worth 5 percent.
+      </p>
+      <p>
+       When in doubt, students should review whether the teacher uses total points, categories, or percentages.
+      </p>
+     </section>
+     <section class="card" id="planning">
+      <span class="kicker">
+       Use results strategically
+      </span>
+      <h2>
+       Using the Calculator to Improve Academic Planning
+      </h2>
+      <p>
+       A grade calculator does more than display a number. It can reveal how future work may affect the final outcome.
+      </p>
+      <p>
+       Students can test different scenarios before an examination. For example, they can compare what happens if they receive 70, 80, or 90 percent on the next project. This makes the relationship between effort and results easier to understand.
+      </p>
+      <p>
+       The tool can also identify subjects that need immediate attention. A student performing well in one course but close to failing another may decide to allocate more revision time to the weaker subject.
+      </p>
+      <p>
+       Regular grade tracking reduces surprises at the end of the semester. Students who understand their current position have more time to request help, complete missing work, or improve study habits.
+      </p>
+     </section>
+     <section class="card" id="mistakes">
+      <span class="kicker">
+       Avoid inaccurate estimates
+      </span>
+      <h2>
+       Common Grade Calculation Mistakes
+      </h2>
+      <p>
+       A frequent mistake is treating weighted grades as a simple average. This produces an inaccurate result when assignments have different values.
+      </p>
+      <p>
+       Students may also enter a score as 80 when the assessment was marked out of 100, even though the actual result was 40 out of 50. Both represent 80 percent, but entering raw points incorrectly can change a points-based calculation.
+      </p>
+      <p>
+       Another problem is forgetting missing work. An unsubmitted assignment may eventually be counted as zero, which can reduce the overall grade significantly.
+      </p>
+      <p>
+       Percentage weights that do not total 100 percent can also create misleading results. Before calculating, students should confirm that every course component has been included.
+      </p>
+      <p>
+       Rounding too early is another source of error. It is better to keep decimal values during the calculation and round only the final result according to the institution’s rules.
+      </p>
+     </section>
+     <section class="card" id="students">
+      <span class="kicker">
+       Student advantages
+      </span>
+      <h2>
+       Benefits for Students
+      </h2>
+      <p>
+       A grade calculator gives students a clearer understanding of academic performance. It reduces the confusion created by weighted categories and allows future results to be estimated quickly.
+      </p>
+      <p>
+       It can encourage responsibility because students can see the effect of missed assignments or poor exam scores. It may also reduce stress by replacing uncertain guesses with measurable targets.
+      </p>
+      <p>
+       However, the result should be treated as an estimate until it matches the school’s official gradebook. Teachers may apply special rules involving dropped scores, extra credit, late penalties, attendance, or grade boundaries that a basic calculator does not automatically understand.
+      </p>
+     </section>
+     <section class="card" id="teachers">
+      <span class="kicker">
+       Supportive academic conversations
+      </span>
+      <h2>
+       Benefits for Teachers and Parents
+      </h2>
+      <p>
+       Teachers can use grade calculators to verify category totals, prepare progress reports, and explain how final marks are determined. A transparent calculation can help students understand why one assessment affects the result more than another.
+      </p>
+      <p>
+       Parents can use the tool to review progress with their children. Instead of focusing only on one disappointing score, they can examine the complete grading structure and discuss practical ways to improve.
+      </p>
+      <p>
+       The conversation should remain supportive. A calculated target can guide study planning, but it should not create unnecessary pressure or replace communication with the teacher.
+      </p>
+     </section>
+     <section class="card" id="limitations">
+      <span class="kicker">
+       Know the boundaries
+      </span>
+      <h2>
+       Limitations of Grade Calculators
+      </h2>
+      <p>
+       A grade calculator depends entirely on the information entered. If a score, weight, or total is incorrect, the calculated result will also be incorrect.
+      </p>
+      <p>
+       Some academic systems use special policies. The lowest quiz may be dropped, bonus points may be added, or final results may be rounded according to institutional rules. Certain courses may require students to pass the final examination separately, even when their total average is high enough.
+      </p>
+      <p>
+       The calculator cannot always account for these conditions. Students should compare the estimate with the syllabus and official learning platform.
+      </p>
+      <p>
+       It also cannot guarantee a future score. It can show what mark is needed, but achieving that mark still requires preparation, attendance, practice, and effective study methods.
+      </p>
+     </section>
+     <section class="card conclusion" id="conclusion">
+      <span class="kicker" style="color:#8df5ff">
+       Final takeaway
+      </span>
+      <h2>
+       Conclusion
+      </h2>
+      <p>
+       A grade calculator is a valuable tool for tracking scores, understanding weighted averages, and planning for future assessments. It helps students calculate current performance and determine what result may be required to reach a desired final grade.
+      </p>
+      <p>
+       The most accurate calculations come from correct scores, verified weights, and a clear understanding of the course grading system. Students should review the syllabus, include every assessment, and compare calculated results with the official gradebook.
+      </p>
+      <p>
+       Used responsibly, a grade calculator can support better planning, realistic goal setting, and improved academic confidence. It does not replace studying, but it helps learners understand exactly where they stand and what they need to achieve next.
+      </p>
+      <div class="pills">
+       <span>
+        Check the syllabus
+       </span>
+       <span>
+        Verify every weight
+       </span>
+       <span>
+        Include missing work
+       </span>
+       <span>
+        Keep decimals
+       </span>
+       <span>
+        Compare the gradebook
+       </span>
+      </div>
+     </section>
+     <section class="card" id="faqs">
+      <span class="kicker">
+       Clear answers
+      </span>
+      <h2>
+       Frequently Asked Questions
+      </h2>
+      <div class="faq">
+       <details>
+        <summary>
+         What is a grade calculator?
+        </summary>
+        <p>
+         A grade calculator is a tool that calculates academic averages, weighted results, percentages, and required future scores.
+        </p>
+       </details>
+       <details>
+        <summary>
+         How do I calculate a weighted grade?
+        </summary>
+        <p>
+         Multiply each score by its percentage weight and add all weighted contributions together.
+        </p>
+       </details>
+       <details>
+        <summary>
+         Can a grade calculator predict my final result?
+        </summary>
+        <p>
+         It can estimate the final result using current scores and expected future marks, but the official outcome depends on the institution’s grading rules.
+        </p>
+       </details>
+       <details>
+        <summary>
+         Why do my calculated and official grades differ?
+        </summary>
+        <p>
+         The difference may come from rounding, missing work, bonus points, dropped assignments, penalties, or incorrect category weights.
+        </p>
+       </details>
+       <details>
+        <summary>
+         Can I calculate what score I need on the final exam?
+        </summary>
+        <p>
+         Yes. A final-grade calculator can determine the exam score required to reach a selected course target.
+        </p>
+       </details>
+       <details>
+        <summary>
+         Should all assessment weights equal 100 percent?
+        </summary>
+        <p>
+         In a standard weighted course, the complete set of assessment categories should normally total 100 percent.
+        </p>
+       </details>
+       <details>
+        <summary>
+         Can a grade calculator calculate GPA?
+        </summary>
+        <p>
+         Some grade calculators include GPA functions, but course credit values and institutional grading scales must be entered correctly.
+        </p>
+       </details>
+       <details>
+        <summary>
+         Is a grade calculator suitable for teachers?
+        </summary>
+        <p>
+         Yes. Teachers can use it to verify weighted totals, explain grading structures, and prepare progress estimates.
+        </p>
+       </details>
+       <details>
+        <summary>
+         Does a grade calculator replace the official gradebook?
+        </summary>
+        <p>
+         No. It provides an estimate and should always be checked against the teacher’s records, syllabus, or official academic platform.
+        </p>
+       </details>
+      </div>
+     </section>
+    </article>
+   </div>
+  </main>
+  <footer class="footer">
+   <div class="footer-grid">
+    <div>
+     <div class="footer-brand">
+      GradePilot
+     </div>
+     <p class="footer-copy">
+      A professional academic guide for understanding weighted grades, planning final-exam targets, and tracking progress responsibly.
+     </p>
+    </div>
+    <div>
+     <h3>
+      Explore
+     </h3>
+     <div class="footer-links">
+      <a href="#types">
+       Calculation Types
+      </a>
+      <a href="#weighted">
+       Weighted Grades
+      </a>
+      <a href="#final">
+       Final Exam Planning
+      </a>
+      <a href="#faqs">
+       FAQs
+      </a>
+     </div>
+    </div>
+    <div>
+     <h3>
+      Social
+     </h3>
+     <div aria-label="Social media links" class="socials">
+      <a aria-label="Facebook" href="https://www.facebook.com/" rel="noopener noreferrer" target="_blank">
+       f
+      </a>
+      <a aria-label="X" href="https://x.com/" rel="noopener noreferrer" target="_blank">
+       𝕏
+      </a>
+      <a aria-label="Instagram" href="https://www.instagram.com/" rel="noopener noreferrer" target="_blank">
+       ◎
+      </a>
+      <a aria-label="LinkedIn" href="https://www.linkedin.com/" rel="noopener noreferrer" target="_blank">
+       in
+      </a>
+     </div>
+    </div>
+   </div>
+   <div class="footer-bottom">
+    <span>
+     © 2026 GradePilot. Educational grade-planning guide.
+    </span>
+    <span>
+     Responsive design for desktop, tablet, and mobile.
+    </span>
+   </div>
+  </footer>
+  <button aria-label="Back to top" class="back" id="back" type="button">
+   ↑
+  </button>
+  <script>
+   "use strict";
+
+const progressBar = document.getElementById("progress");
+const backToTopButton = document.getElementById("back");
+const calculateButton = document.getElementById("calc");
+const resultBox = document.getElementById("result");
+
+function updatePageControls() {
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
+
+  if (progressBar) {
+    progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+  }
+
+  if (backToTopButton) {
+    backToTopButton.classList.toggle("show", scrollTop > 600);
+  }
+}
+
+function readNumber(id) {
+  const field = document.getElementById(id);
+  return field ? Number(field.value) : Number.NaN;
+}
+
+function calculateWeightedGrade() {
+  if (!resultBox) {
+    return;
+  }
+
+  const scores = [readNumber("s1"), readNumber("s2"), readNumber("s3")];
+  const weights = [readNumber("w1"), readNumber("w2"), readNumber("w3")];
+  const allValues = [...scores, ...weights];
+
+  const hasInvalidValue = allValues.some(
+    (value) => !Number.isFinite(value) || value < 0
+  );
+
+  if (hasInvalidValue) {
+    resultBox.innerHTML =
+      "<strong>Check your entries</strong>" +
+      "<span>Please use valid, non-negative numbers.</span>";
+    return;
+  }
+
+  const totalWeight = weights.reduce((sum, value) => sum + value, 0);
+  const weightedGrade = scores.reduce(
+    (sum, score, index) => sum + score * (weights[index] / 100),
+    0
+  );
+
+  const weightMessage =
+    Math.abs(totalWeight - 100) < 0.001
+      ? "Weights total 100%."
+      : `Weights total ${totalWeight.toFixed(0)}%. Adjust them to 100% for a complete course grade.`;
+
+  resultBox.innerHTML =
+    `<strong>${weightedGrade.toFixed(2)}%</strong>` +
+    `<span>${weightMessage}</span>`;
+}
+
+window.addEventListener("scroll", updatePageControls, { passive: true });
+window.addEventListener("load", updatePageControls);
+
+if (backToTopButton) {
+  backToTopButton.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+}
+
+if (calculateButton) {
+  calculateButton.addEventListener("click", calculateWeightedGrade);
+}
+  </script>
+ </body>
+</html>
